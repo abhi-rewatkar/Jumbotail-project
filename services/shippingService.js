@@ -11,8 +11,8 @@ const calculateShippingCharge = (distance, weight, deliverySpeed) => {
   const courierCharge = 10;
 
   if (deliverySpeed === 'express') baseCharge += weight * 1.2;
-
-  return baseCharge + courierCharge;
+  const ans = baseCharge + courierCharge;
+  return parseInt(ans);
 };
 
 module.exports = { calculateShippingCharge };

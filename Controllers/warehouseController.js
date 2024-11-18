@@ -1,39 +1,3 @@
-// //importing the warehouse model
-// const Warehouse = require('../models/warehouse');
-// const { calculateDistance } = require('../services/distanceCalculator');
-
-// const getNearestWarehouse = async (req, res, next) => {
-//   try {
-//     //getting the data from request
-//     const { sellerLat, sellerLong } = req.query;
-
-//     //if it is not there then it will send an error
-//     if (!sellerLat || !sellerLong) {
-//         res.status(400).json({ msg :"location not found" });
-//     }
-
-//     // finding the warehouse in database
-//     const warehouses = await Warehouse.find();
-
-//     //getting the location of an warehouse
-//     const nearestWarehouse = warehouses.reduce((prev, curr) => {
-//       const prevDistance = calculateDistance({ lat: sellerLat, long: sellerLong }, prev.location);
-//       const currDistance = calculateDistance({ lat: sellerLat, long: sellerLong }, curr.location);
-//       return currDistance < prevDistance ? curr : prev;
-//     });
-
-//     //returning the response
-//     res.status(200).json({ nearestWarehouse });
-//   } catch (err) {
-//     //returning the error if occurs
-//     res.status(400).json({ Error : err});
-//   }
-// };
-
-// ////exporting the controller
-// module.exports = { getNearestWarehouse };
-
-
 // Import necessary modules
 const Warehouse = require('../Models/warehouse');
 const Seller = require('../Models/seller'); // Assume this model stores seller details
@@ -73,7 +37,7 @@ const getNearestWarehouse = async (req, res, next) => {
     });
 
     // console.log("nearest",nearestWarehouse.warehouseLocation);
-   
+   const warehouseId = nearestWarehouse._id;
     // Send the response.
     res.status(200).json({
       warehouseId: nearestWarehouse._id,
@@ -86,4 +50,4 @@ const getNearestWarehouse = async (req, res, next) => {
 };
 
 // Export the controller
-module.exports = { getNearestWarehouse };
+module.exports = { getNearestWarehouse};
