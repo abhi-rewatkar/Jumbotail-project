@@ -4,62 +4,12 @@ const Seller = require('../Models/seller'); // Assume this model stores seller d
 const Product = require('../Models/product'); // Assume this model stores product details
 const { calculateDistance } = require('../services/distanceCalculator');
 
-const getwarehouse = async(sellerId,productId) => {
-  try {
-    // console.log(sellerId,productId);
-
-    // Validate required parameters
-    if (!sellerId || !productId) {
-      return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
-    }
-
-    // Fetch seller details to get their location
-    const seller = await Seller.findById(sellerId);
-    // console.log("seller", seller);
-    if (!seller) {
-      console.log("seller not found");
-    }
-
-    const sellerLocation = seller.location; // { lat: 11.232, lng: 23.445495 }
-    
-    // Fetch all warehouses
-    const warehouses = await Warehouse.find();
-   
-    // console.log("location ", sellerLocation, "warehouse", warehouses);
-    if (!warehouses || warehouses.length === 0) {
-      console.log("No warehouses available");
-    }
-
-    // Find the nearest warehouse
-    const nearestWarehouse = warehouses.reduce((prev, curr) => {
-      const prevDistance = calculateDistance(sellerLocation, prev.location);
-      const currDistance = calculateDistance(sellerLocation, curr.location);
-      return currDistance < prevDistance ? curr : prev;
-    });
-
-    const extractwarehouse = JSON.stringify(nearestWarehouse);
-    const Location = JSON.parse(extractwarehouse);
-
-      return Location.warehouseLocation;
-    
-    // Send the response.
-    // res.status(200).json({
-    //   warehouseId: nearestWarehouse._id,
-    //   nearestWarehouse: Location.warehouseLocation,
-    // });
-  } catch (err) {
-    // Handle any errors
-    console.log(err);
-  }
-}
-
-const getNearestWarehouse = async (req, res, next) => {
+const getwarehouse = async (sellerId, productId) => {
   try {
     // Extract sellerId and productId from query parameters
-    const { sellerId, productId } = req.query;
-
-
     console.log(sellerId, productId);
+
+
     // Validate required parameters
     if (!sellerId || !productId) {
       return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
@@ -104,4 +54,4 @@ const getNearestWarehouse = async (req, res, next) => {
 };
 
 // Export the controller
-module.exports = { getNearestWarehouse, getwarehouse};
+module.exports = { getwarehouse};

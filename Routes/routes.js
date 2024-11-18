@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/warehouse/nearest', getNearestWarehouse);
 router.get('/shipping-charge', getShippingCharge);
-router.post('/shipping-charge/calculate', calculateShipping);
+router.get('/shipping-charge/calculate', calculateShipping);
 
 module.exports = router;

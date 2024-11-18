@@ -1,14 +1,15 @@
 //importing the controllers
-const { getNearestWarehouse } = require('./warehouseController');
+const { getwarehouse } = require('./warehouseController');
 const { getShippingCharge } = require('./shippingController');
 
 
 const calculateShipping = async (req, res) => {
     //getting data from request
-    const { sellerId, customerId, deliverySpeed } = req.body;
+    const { sellerId, customerId,productId, deliverySpeed } = req.body;
+    // console.log(sellerId, customerId,productId, deliverySpeed);
 
     //calculating the nearest warehouse and shipping charges
-    const nearestWarehouse = await getNearestWarehouse(req, res);
+    const nearestWarehouse = await getwarehouse(sellerId,productId);
     const shippingCharge = await getShippingCharge(req, res);
 
     res.json({
