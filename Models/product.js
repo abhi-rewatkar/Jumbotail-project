@@ -8,3 +8,13 @@ const productSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Product', productSchema);
+
+
+
+// {{
+//     "name": "iphone",
+//     "sellingPrice": 200,
+//     "attributes": { weight: 2, dimensions: "222" },
+//     "sellerId": {"name": 'Test Seller',
+//     "location": { "lat": 12.99999, "long": 37.923273 }},
+// }}

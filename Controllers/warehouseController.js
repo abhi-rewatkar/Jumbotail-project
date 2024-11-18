@@ -44,7 +44,6 @@ const getNearestWarehouse = async (req, res, next) => {
   try {
     // Extract sellerId and productId from query parameters
     const { sellerId, productId } = req.query;
-
     // Validate required parameters
     if (!sellerId || !productId) {
       return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
@@ -57,9 +56,11 @@ const getNearestWarehouse = async (req, res, next) => {
     }
 
     const sellerLocation = seller.location; // { lat: 11.232, lng: 23.445495 }
-
+    
     // Fetch all warehouses
     const warehouses = await Warehouse.find();
+
+    // console.log("location ", sellerLocation, "warehouse", warehouses);
     if (!warehouses || warehouses.length === 0) {
       return res.status(404).json({ msg: "No warehouses available" });
     }
@@ -71,10 +72,12 @@ const getNearestWarehouse = async (req, res, next) => {
       return currDistance < prevDistance ? curr : prev;
     });
 
-    // Send the response
+    // console.log("nearest",nearestWarehouse.warehouseLocation);
+   
+    // Send the response.
     res.status(200).json({
       warehouseId: nearestWarehouse._id,
-      warehouseLocation: nearestWarehouse.location,
+      nearestWarehouse: nearestWarehouse,
     });
   } catch (err) {
     // Handle any errors

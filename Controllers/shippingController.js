@@ -13,9 +13,12 @@ const getShippingCharge = async (req, res, next) => {
     const warehouse = await Warehouse.findById(warehouseId);
     const customer = await Customer.findById(customerId);
 
+    console.log(warehouse)
     //calculating the operations (distance and shipping charges)
-    const distance = calculateDistance(warehouse.location, customer.location);
+    const distance = calculateDistance(warehouse.warehouseLocation, customer.location);
+
     const shippingCharge = calculateShippingCharge(distance, 1, deliverySpeed);
+    console.log(distance, shippingCharge);
 
     //returning the response
     res.status(200).json({ shippingCharge });
@@ -27,3 +30,6 @@ const getShippingCharge = async (req, res, next) => {
 
 //exporting the module
 module.exports = { getShippingCharge };
+
+
+// /api/v1/shipping-charge?warehouseId=789&customerId=456&deliverySpeed=express

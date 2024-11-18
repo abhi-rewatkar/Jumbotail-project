@@ -1,4 +1,5 @@
 const calculateDistance = (loc1, loc2) => {
+  // console.log(loc1,loc2);
     const toRad = (value) => (value * Math.PI) / 180;
     const R = 6371; // Earth's radius in km
   
