@@ -36,4 +36,4 @@ const getShippingCharge = async (req, res, next) => {
 module.exports = { getShippingCharge };
 
 
-// /api/v1/shipping-charge?warehouseId=789&customerId=456&deliverySpeed=express
+// /api/v1/shipping-charge?warehouseId=673b1167b2ea94fc89abc14a&customerId=673b10cab2ea94fc89abc139&deliverySpeed=express

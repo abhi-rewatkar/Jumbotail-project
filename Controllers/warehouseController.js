@@ -6,11 +6,9 @@ const { calculateDistance } = require('../services/distanceCalculator');
 
 const getwarehouse = async(sellerId,productId) => {
   try {
-    // console.log("sellerId",sellerId,"productI",productId);
       if (!sellerId || !productId) {
         return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
       }
-    // Fetch seller details to get their location
     const seller = await Seller.findById(sellerId);
     if (!seller) {
       console.log("seller not found");
@@ -18,7 +16,6 @@ const getwarehouse = async(sellerId,productId) => {
 
     const sellerLocation = seller.location;
     const warehouses = await Warehouse.find();
-    // console.log("warehouses",sellerLocation);
    
     if (!warehouses || warehouses.length === 0) {
       console.log("No warehouses available");
@@ -46,7 +43,7 @@ const getNearestWarehouse = async (req, res, next) => {
     const { sellerId, productId } = req.query;
 
 
-    console.log(sellerId, productId);
+    // console.log(sellerId, productId);
     // Validate required parameters
     if (!sellerId || !productId) {
       return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
@@ -92,3 +89,11 @@ const getNearestWarehouse = async (req, res, next) => {
 
 // Export the controller
 module.exports = { getNearestWarehouse, getwarehouse};
+
+
+// GET   /api/v1/warehouse/nearest?sellerId=673b11f1b2ea94fc89abc155&productId=673b10f5b2ea94fc89abc140
+// Sample Response:
+// {
+// "warehouseId": 789,
+// "warehouseLocation": { "lat": 12.99999, "long": 37.923273 }
+// }
