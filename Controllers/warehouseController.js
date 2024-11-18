@@ -6,31 +6,24 @@ const { calculateDistance } = require('../services/distanceCalculator');
 
 const getwarehouse = async(sellerId,productId) => {
   try {
-    // console.log(sellerId,productId);
-
-    // Validate required parameters
-    if (!sellerId || !productId) {
-      return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
-    }
-
+    // console.log("sellerId",sellerId,"productI",productId);
+      if (!sellerId || !productId) {
+        return res.status(400).json({ msg: "Missing required parameters: sellerId and productId" });
+      }
     // Fetch seller details to get their location
     const seller = await Seller.findById(sellerId);
-    // console.log("seller", seller);
     if (!seller) {
       console.log("seller not found");
     }
 
-    const sellerLocation = seller.location; // { lat: 11.232, lng: 23.445495 }
-    
-    // Fetch all warehouses
+    const sellerLocation = seller.location;
     const warehouses = await Warehouse.find();
+    // console.log("warehouses",sellerLocation);
    
-    // console.log("location ", sellerLocation, "warehouse", warehouses);
     if (!warehouses || warehouses.length === 0) {
       console.log("No warehouses available");
     }
 
-    // Find the nearest warehouse
     const nearestWarehouse = warehouses.reduce((prev, curr) => {
       const prevDistance = calculateDistance(sellerLocation, prev.location);
       const currDistance = calculateDistance(sellerLocation, curr.location);
@@ -39,19 +32,13 @@ const getwarehouse = async(sellerId,productId) => {
 
     const extractwarehouse = JSON.stringify(nearestWarehouse);
     const Location = JSON.parse(extractwarehouse);
-
-      return Location.warehouseLocation;
+    // console.log("Lic",Location.warehouseLocation);
+    return Location.warehouseLocation;
     
-    // Send the response.
-    // res.status(200).json({
-    //   warehouseId: nearestWarehouse._id,
-    //   nearestWarehouse: Location.warehouseLocation,
-    // });
   } catch (err) {
-    // Handle any errors
     console.log(err);
   }
-}
+};
 
 const getNearestWarehouse = async (req, res, next) => {
   try {

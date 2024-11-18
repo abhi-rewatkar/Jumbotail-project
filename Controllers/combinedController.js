@@ -4,12 +4,13 @@ const { getShippingCharge } = require('./shippingController');
 
 
 const calculateShipping = async (req, res) => {
-    //getting data from request
     const { sellerId, customerId,productId, deliverySpeed } = req.body;
-    // console.log(sellerId, customerId,productId, deliverySpeed);
 
-    //calculating the nearest warehouse and shipping charges
     const nearestWarehouse = await getwarehouse(sellerId,productId);
+    if (!nearestWarehouse) {
+        return res.status(404).json({ msg: "No warehouse found for the provided seller and product" });
+      }
+
     const shippingCharge = await getShippingCharge(req, res);
 
     res.json({
